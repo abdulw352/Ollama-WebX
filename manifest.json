@@ -84,6 +84,11 @@
         "css/light.css"
       ],
       "type": "module"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["lib/marked.min.js"]
     }
-  ]
+  ],
+  "content_security_policy": "script-src 'self' https://cdn.jsdelivr.net; object-src 'self'"
 }
