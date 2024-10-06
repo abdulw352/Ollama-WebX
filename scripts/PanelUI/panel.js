@@ -47,12 +47,13 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
+/* temporary to get rid of errors 
 //No warnings for markdown
 marked.use({
   mangle: false,
   headerIds: false
 });
+*/
 
 //set domain ORIGIN to localhost
 if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.id) {
