@@ -1,4 +1,3 @@
-
 const notFoundString = `
 <p>failed to load</p>
 `;
@@ -525,12 +524,11 @@ const uploadList = document.getElementById('uploadList');
 const listItems = uploadList.querySelectorAll('li'); // Assuming the list items are <li> elements
 
 addButton.addEventListener('click', function (event) {
-  event.stopPropagation(); // Prevent the click event from propagating to the document
+  event.stopPropagation();
   toggleUploadList();
 });
 
 document.addEventListener('click', function (event) {
-  // Check if the click was outside the uploadList and addButton
   if (!uploadList.contains(event.target) && !addButton.contains(event.target)) {
     closeUploadList();
   }
@@ -538,7 +536,7 @@ document.addEventListener('click', function (event) {
 
 listItems.forEach(item => {
   item.addEventListener('click', function (event) {
-    event.stopPropagation(); // Prevent the click event from propagating to the document
+    event.stopPropagation();
     closeUploadList();
   });
 });
@@ -547,6 +545,8 @@ function toggleUploadList() {
   if (uploadList.classList.contains('hidden')) {
     uploadList.classList.remove('hidden', 'fade-out');
     uploadList.classList.add('fade-in');
+    uploadList.style.bottom = '100%';
+    uploadList.style.top = 'auto';
     addButton.src = "https://img.icons8.com/?size=100&id=46&format=png&color=FFFFFF";
   } else {
     uploadList.classList.remove('fade-in');
@@ -554,10 +554,9 @@ function toggleUploadList() {
     addButton.src = "https://img.icons8.com/?size=100&id=3220&format=png&color=FFFFFF";
     setTimeout(() => {
       uploadList.classList.add('hidden');
-    }, 500); // Match the duration of your fade-out animation
+    }, 500);
   }
 }
-
 
 function closeUploadList() {
   if (!uploadList.classList.contains('hidden')) {
@@ -922,7 +921,7 @@ async function processResponse(response, chatlog, chatResponse, loading, chatRes
     //chatResponse.innerHTML += word.replace(/[*`#]/g, '');
    
     data_p += word;
-    let htmlContent = marked.parse(data_p);
+    let htmlContent = marked.parse(data_p, { mangle: false, headerIds: false });
     chatResponse.innerHTML = htmlContent;
     Prism.highlightAllUnder(chatResponse);
     ongoing = true
@@ -940,7 +939,7 @@ document.getElementById('submit').classList.remove('hidden');
 chatResponse_div.querySelector('.menu-group').classList.add('group-hover:flex')
 chatResponse.classList.add('shine')
 chatResponse.innerHTML =`<div><span class="font-bold text-[15px] text-white mb-3 ">${model}</span></div>`
-chatResponse.innerHTML += marked.parse(data_p);
+chatResponse.innerHTML += marked.parse(data_p, { mangle: false, headerIds: false });
 Prism.highlightAllUnder(chatResponse);
 chatResponse_div.classList.remove('glow');
 ongoing = false
@@ -1331,3 +1330,30 @@ let previousCpuInfo = null;
 
 
 /////////
+
+// Add new function to handle chat history
+function showChatHistory() {
+  // Implementation for showing chat history
+  console.log("Showing chat history");
+}
+
+// Add new function to start new chat
+function startNewChat() {
+  messages = [];
+  conversationHistory = '[no existing conversation]';
+  chatlog.innerHTML = '';
+  promptInput.value = '';
+  context_prompt.value = '';
+  context_prompt.classList.add('hidden');
+}
+
+// Add after the existing list item event listeners
+document.querySelector('.history-li').addEventListener('click', () => {
+  showChatHistory();
+  addButton.click();
+});
+
+document.querySelector('.new-chat-li').addEventListener('click', () => {
+  startNewChat();
+  addButton.click();
+});

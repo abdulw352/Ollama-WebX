@@ -24,9 +24,9 @@ chrome.runtime.onConnect.addListener(function(port) {
 
 
 async function getModelFromStorage() {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     chrome.storage.local.get('model', function(result) {
-      const selectedModel = result.model ? result.model.trim() : '';
+      const selectedModel = result.model ? result.model.trim() : 'llama2:latest'; // Default model
       resolve(selectedModel);
     });
   });
@@ -95,28 +95,40 @@ async function postRequest(data) {
 
 // Function to read and process the response from the LLM
 async function getResponse(response, callback) {
-  const reader = response.body.getReader(); // Get a reader to read the response stream
-  let partialLine = ''; // Store incomplete lines
+  const reader = response.body.getReader();
+  let partialLine = '';
 
-  while (true) {
-    const { done, value } = await reader.read(); // Read the next chunk
-    if (done) break; // Exit the loop when reading is done
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
 
-    // Decode the received value and split by lines
-    const textChunk = new TextDecoder().decode(value);
-    const lines = (partialLine + textChunk).split('\n');
-    partialLine = lines.pop(); // The last line might be incomplete
+      const textChunk = new TextDecoder().decode(value);
+      const lines = (partialLine + textChunk).split('\n');
+      partialLine = lines.pop();
 
-    for (const line of lines) {
-      if (line.trim() === '') continue; // Skip empty lines
-      const parsedResponse = JSON.parse(line); // Parse each line as JSON
-      callback(parsedResponse); // Process each response word
+      for (const line of lines) {
+        if (line.trim() === '') continue;
+        try {
+          const parsedResponse = JSON.parse(line);
+          callback(parsedResponse);
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+          continue;
+        }
+      }
     }
-  }
 
-  // Handle any remaining line
-  if (partialLine.trim() !== '') {
-    const parsedResponse = JSON.parse(partialLine);
-    callback(parsedResponse);
+    if (partialLine.trim() !== '') {
+      try {
+        const parsedResponse = JSON.parse(partialLine);
+        callback(parsedResponse);
+      } catch (error) {
+        console.error('Error parsing final JSON:', error);
+      }
+    }
+  } catch (error) {
+    console.error('Error reading stream:', error);
+    throw error;
   }
 }

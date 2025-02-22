@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Orian</title>
-    <link rel="stylesheet" id="theme" href="css/light.css">
-    <script src="lib/marked.min.js" integrity="sha384-dZulhREgb+hCgQMhZ2VG0l37VQj5pJBq2w0h7Jn3tdMn36aXNepF1+FMLBB4O649" crossorigin="anonymous"></script>
+    <title>AI Assistant Panel</title>
+    <link rel="stylesheet" href="css/output.css">
+    <script src="lib/marked.min.js"></script>
     <script src="lib/prism.js"></script>
     <script src="lib/pdf.min.js"></script>
     <link href="css/prism.css" rel="stylesheet">
-    <link href="css/output.css" rel="stylesheet">
 </head>
 <body class="bg-[#212121] flex flex-col h-screen">
 
@@ -134,34 +133,23 @@
                     <img src="https://img.icons8.com/?size=100&id=3220&format=png&color=FFFFFF" class="rounded-full" style="width:18px"/>
                 </div>
                 <!-- Hidden List -->
-                <div id="uploadList" class="hidden bg-[#2f2f2f] border border-gray-400 mt-4 absolute top-16 p-1 rounded-lg w-40 sm:w-44">
-                    <ul class="p-0">
-                        <li class="flex items-center p-1 px-3 mb-1 hover:bg-[#212121] rounded-lg input-context-li input-context-button">
-                            <img src="https://img.icons8.com/?size=100&id=3220&format=png&color=FFFFFF" class="w-6 p-1 text-white rounded-lg" />
-                            <span class="text-slate-300 group rounded-lg p-1 cursor-pointer">
-                                Add Context
-                            </span>
+                <div id="uploadList" class="absolute bottom-full right-0 mb-2 w-48 bg-gray-800 rounded-lg shadow-lg hidden z-50">
+                    <ul class="py-2">
+                        <li class="webchat-li px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center">
+                            <img src="https://img.icons8.com/?size=100&id=12366&format=png&color=FFFFFF" alt="Chat" class="w-5 h-5 mr-2">
+                            Chat with webpage
                         </li>
-                        <li class="flex items-center px-3 mb-1 p-1 rounded-lg hover:bg-[#212121] fileInput-li">
-                            <label for="fileInput" class="cursor-pointer flex items-center">
-                                <img src="https://img.icons8.com/?size=90&id=exw8UcE4WyJ1&format=png&color=000000" class="w-6 p-1 text-white rounded-lg"/>
-                                <span class="text-slate-300 group rounded-lg p-1 cursor-pointer">
-                                    Upload File
-                                </span>
-                            </label>
-                            <input type="file" id="fileInput" accept=".txt, .pdf, .html, .js, .css, .java, .py, .cpp, .c, .cs, .php, .rb, .go, .rs, .swift, .ts, .xml, .json, .yaml, .yml" class="hidden">
+                        <li class="settings-li px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center">
+                            <img src="https://img.icons8.com/?size=100&id=59837&format=png&color=FFFFFF" alt="Settings" class="w-5 h-5 mr-2">
+                            Settings
                         </li>
-                        <li class="flex items-center px-3 p-1 mb-1 rounded-lg hover:bg-[#212121] webchat-li">
-                            <img src="https://img.icons8.com/?size=100&id=aIYDmrSk6X13&format=png&color=000000" class="w-6 p-1 text-white rounded-lg" />
-                            <span class="text-slate-300 group rounded-lg p-1 cursor-pointer">
-                                Q&A webpage
-                            </span>
+                        <li class="history-li px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center">
+                            <img src="https://img.icons8.com/?size=100&id=12438&format=png&color=FFFFFF" alt="History" class="w-5 h-5 mr-2">
+                            View History
                         </li>
-                        <li class="flex items-center p-1 px-3 mb-1 hover:bg-[#212121] rounded-lg input-context-li settings-li">
-                            <img src="https://img.icons8.com/?size=100&id=2969&format=png&color=FFFFFF" class="w-6 p-1 text-white rounded-lg" />
-                            <span class="text-slate-300 group rounded-lg p-1 cursor-pointer">
-                                Settings Page
-                            </span>
+                        <li class="new-chat-li px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center">
+                            <img src="https://img.icons8.com/?size=100&id=12858&format=png&color=FFFFFF" alt="New Chat" class="w-5 h-5 mr-2">
+                            New Chat
                         </li>
                     </ul>
                 </div>
@@ -177,7 +165,7 @@
 <!-- End of Input Box -->   
 <p class="text-center text-slate-300 mb-1"><span class="text-[10px]">LLMs can make mistakes. Verify important information.</span></p>
 
-<script src="scripts/PanelUI/panel.js"></script>
+<script src="scripts/PanelUI/panel.js" type="module"></script>
 
 </body>
 </html>

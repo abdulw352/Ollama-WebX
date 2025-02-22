@@ -1,94 +1,129 @@
 {
   "manifest_version": 3,
-  "name": "Orian (Ollama WebUI)",
-  "version": "1.2",
-  "description": "Quick access to your favorite local LLM from your browser (Ollama).",
-  "icons": {
-    "16": "assets/logo.png",
-    "48": "assets/logo.png",
-    "128": "assets/logo.png"
-  },
-  "commands": {
-    "open_side_panel": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+Left",
-        "mac": "Command+Shift+Left"
-      },
-      "description": "Open side panel"
+  "name": "Ollama WebUI",
+  "version": "1.0",
+  "description": "Side panel to interact with Ollama models",
+  "action": {
+    "default_popup": "popup.html",
+    "default_sidepanel": "panel.html",
+    "default_icon": {
+      "16": "images/get_started16.png",
+      "32": "images/get_started32.png",
+      "48": "images/get_started48.png",
+      "128": "images/get_started128.png"
     }
   },
-  "permissions": [
-    "storage",
-    "sidePanel",
-    "contextMenus",
-    "declarativeNetRequest",
-    "system.cpu",
-    "system.memory",
-    "commands"
-  ],
+  "icons": {
+    "16": "images/get_started16.png",
+    "32": "images/get_started32.png",
+    "48": "images/get_started48.png",
+    "128": "images/get_started128.png"
+  },
+  "options_page": "options.html",
   "background": {
     "service_worker": "scripts/Background/background.js",
     "type": "module"
   },
-  "host_permissions": [
-    "http://localhost:11434/api/tags",
-    "http://localhost:11434/api/generate"
-  ],
-  "side_panel": {
-    "default_path": "panel.html",
-    "openPanelOnActionClick": true
-  },
-  "action": {
-    "default_title": "Click to open panel"
-  },
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "scripts/WebUI/selection.js"
-      ],
-      "run_at": "document_end",
-      "type": "module"
-    },
-    {
-      "matches": [
-        "https://www.google.com/*"
-      ],
-      "js": [
-        "lib/marked.min.js",
-        "lib/prism.js",
-        "scripts/WebUI/googleResultsComponent.js"
-      ],
-      "run_at": "document_end",
-      "css": [
-        "output.css",
-        "css/prism.css",
-        "css/light.css"
-      ],
-      "type": "module"
-    },
-    {
-      "matches": [
-        "https://mail.google.com/*"
-      ],
-      "js": [
-        "lib/marked.min.js",
-        "scripts/WebUI/emailComponent.js"
-      ],
-      "run_at": "document_end",
-      "css": [
-        "output.css",
-        "css/prism.css",
-        "css/light.css"
-      ],
-      "type": "module"
-    },
-    {
       "matches": ["<all_urls>"],
-      "js": ["lib/marked.min.js"]
+      "js": ["scripts/WebUI/content.js", "scripts/WebUI/selection.js", "scripts/WebUI/googleResultsComponent.js","scripts/WebUI/emailComponent.js"],
+      "css": ["css/output.css"]
     }
   ],
-  "content_security_policy": "script-src 'self' https://cdn.jsdelivr.net; object-src 'self'"
+  "web_accessible_resources": [{
+    "resources": ["panel.html", "options.html", "popup.html", "css/*", "scripts/*", "images/*", "lib/*"],
+    "matches": ["<all_urls>"]
+  }],
+  "permissions": [
+    "sidePanel",
+    "contextMenus",
+    "storage",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback",
+    "activeTab",
+    "scripting",
+    "system.cpu",
+    "system.memory",
+    "clipboardWrite",
+    "alarms",
+    "idle",
+    "notifications",
+    "unlimitedStorage",
+    "cookies",
+    "tabs",
+    "webNavigation",
+    "history",
+    "bookmarks",
+    "sessions",
+    "identity",
+    "nativeMessaging",
+    "downloads",
+    "management",
+    "topSites",
+    "browsingData",
+    "tabCapture",
+    "debugger",
+    "proxy",
+    "privacy",
+    "search",
+    "sessions",
+    "tts",
+    "webRequest",
+    "webRequestBlocking",
+    "geolocation",
+    "gcm",
+    "idle",
+    "nativeMessaging",
+    "printerProvider",
+    "processes",
+    "sessions",
+    "signedInDevices",
+    "system.display",
+    "system.storage",
+    "tts",
+    "wallpaper",
+    "webNavigation",
+    "webRequest",
+    "webRequestBlocking",
+    "http://localhost:11434/*",
+    "https://api.openai.com/*",
+    "https://api.anthropic.com/*",
+    "https://claude.ai/*",
+    "https://gemini.google.com/*",
+    "https://bard.google.com/*",
+    "https://chat.openai.com/*",
+    "https://poe.com/*",
+    "https://huggingface.co/*",
+    "https://cohere.ai/*",
+    "https://together.ai/*",
+    "https://replicate.com/*",
+    "https://ai.google.com/*",
+    "https://www.google.com/*",
+    "https://mail.google.com/*"
+  ],
+  "host_permissions": [
+    "http://localhost:11434/*",
+    "https://api.openai.com/*",
+    "https://api.anthropic.com/*",
+    "https://claude.ai/*",
+    "https://gemini.google.com/*",
+    "https://bard.google.com/*",
+    "https://chat.openai.com/*",
+    "https://poe.com/*",
+    "https://huggingface.co/*",
+    "https://cohere.ai/*",
+    "https://together.ai/*",
+    "https://replicate.com/*",
+    "https://ai.google.com/*",
+    "https://www.google.com/*",
+    "https://mail.google.com/*"
+  ],
+  "declarative_net_request" : {
+    "rule_resources" : [{
+      "id": "ruleset_1",
+      "path": "rules.json",
+      "enabled": true
+    }]
+  }
 }
